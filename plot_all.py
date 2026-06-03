@@ -175,9 +175,10 @@ def plot_cencoos() -> None:
         add_seasons(ax, t0, t1)
         ax.set_xlim(t0, t1)
 
-    axes[0].plot(daily.index, daily["sea_water_temperature"], color="#C62828", lw=1)
-    style_panel(axes[0], "Sea surface temperature", "#C62828", t0, t1, ylabel="°C")
-    axes[0].set_ylim(bottom=0)
+    sst_f = daily["sea_water_temperature"] * 9 / 5 + 32
+    axes[0].plot(daily.index, sst_f, color="#C62828", lw=1)
+    style_panel(axes[0], "Sea surface temperature", "#C62828", t0, t1, ylabel="°F")
+    axes[0].set_ylim(bottom=32)
 
     axes[1].fill_between(chl.index, chl, alpha=0.6, color="#2E7D32")
     style_panel(axes[1], "Chlorophyll (daily median, clipped at 50 µg/L)", "#2E7D32", t0, t1, ylabel="µg/L")
