@@ -104,7 +104,7 @@ def style_panel(ax, title, color, t0, t1, ylabel, linthresh=None) -> None:
     ax.set_xlim(t0, t1)
     if linthresh is not None:
         ax.set_yscale("symlog", linthresh=linthresh)
-    ax.set_ylim(bottom=0)
+    # ylim bottom set AFTER data is plotted so autoscaling sets the top first
 
 
 # ── Plot 1: Bodega Marine Lab ─────────────────────────────────────────────────
@@ -145,6 +145,7 @@ def plot_bodega() -> None:
                     ylabel="cells/L" if linthresh else "°C",
                     linthresh=linthresh)
         ax.plot(df.index, df[col], "o-", color=color, ms=3, lw=1)
+        ax.set_ylim(bottom=0)
         if i == 0:
             ax.legend(handles=TRIP_LINES, fontsize=FONT - 2, loc="upper right", handlelength=1.5)
 
@@ -176,9 +177,11 @@ def plot_cencoos() -> None:
 
     axes[0].plot(daily.index, daily["sea_water_temperature"], color="#C62828", lw=1)
     style_panel(axes[0], "Sea surface temperature", "#C62828", t0, t1, ylabel="°C")
+    axes[0].set_ylim(bottom=0)
 
     axes[1].fill_between(chl.index, chl, alpha=0.6, color="#2E7D32")
     style_panel(axes[1], "Chlorophyll (daily median, clipped at 50 µg/L)", "#2E7D32", t0, t1, ylabel="µg/L")
+    axes[1].set_ylim(bottom=0)
 
     quarterly_axis(axes[-1])
     plt.tight_layout(rect=[0, 0, 1, 0.96])
@@ -210,6 +213,7 @@ def plot_habmap() -> None:
     for i, (ax, (col, label, color, linthresh)) in enumerate(zip(axes, panels)):
         style_panel(ax, label, color, t0, t1, ylabel="cells/L", linthresh=linthresh)
         ax.plot(df.index, df[col].fillna(0), "o-", color=color, ms=4, lw=1)
+        ax.set_ylim(bottom=0)
         if i == 0:
             ax.legend(handles=TRIP_LINES, fontsize=FONT - 2, loc="upper right", handlelength=1.5)
 
