@@ -48,6 +48,12 @@ python download_data.py
 
 # Regenerate plots (saved to plots/)
 python plot_all.py
+
+# Convert plots to WebP for the blog (saved to webp/)
+python convert_to_webp.py
+
+# Copy to blog assets
+cp webp/*.webp ~/homepage/site/assets/blog/images/
 ```
 
 Plots are sized at 750 px wide (5 in × 150 dpi) for 2× retina mobile display.

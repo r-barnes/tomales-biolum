@@ -40,8 +40,11 @@ SEASONS = [
 ]
 
 DPI  = 150
-W    = 5.0   # inches — sized for 2× retina mobile display at ~375 px CSS width
 FONT = 12
+
+W_CENCOOS = 7.0   # 2.5 years, 2 panels
+W_HABMAP  = 9.0   # 5 years,   4 panels
+W_BODEGA  = 11.0  # 6+ years,  7 panels
 
 plt.rcParams.update({
     "font.size":        FONT,
@@ -99,9 +102,9 @@ def style_panel(ax, title, color, t0, t1, ylabel, linthresh=None) -> None:
     ax.set_title(title, fontsize=FONT, loc="left", color=color, fontweight="bold", pad=2)
     ax.set_ylabel(ylabel, labelpad=2)
     ax.set_xlim(t0, t1)
-    ax.set_ylim(bottom=0)
     if linthresh is not None:
         ax.set_yscale("symlog", linthresh=linthresh)
+    ax.set_ylim(bottom=0)
 
 
 # ── Plot 1: Bodega Marine Lab ─────────────────────────────────────────────────
@@ -131,7 +134,7 @@ def plot_bodega() -> None:
         ("Temp",                                 "Sea surface temperature",            "#B71C1C", None),
     ]
 
-    fig, axes = plt.subplots(len(panels), 1, figsize=(W, 17.0), sharex=True)
+    fig, axes = plt.subplots(len(panels), 1, figsize=(W_BODEGA, 17.0), sharex=True)
     fig.suptitle(
         "Bodega Marine Lab — HAB Monitoring (CalHABMAP)\nweekly samples",
         fontsize=FONT, fontweight="bold",
@@ -161,7 +164,7 @@ def plot_cencoos() -> None:
     chl = df["mass_concentration_of_chlorophyll_in_sea_water"].resample("D").median().clip(upper=50)
     t0, t1 = daily.index.min(), daily.index.max()
 
-    fig, axes = plt.subplots(2, 1, figsize=(W, 7.5), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(W_CENCOOS, 7.5), sharex=True)
     fig.suptitle(
         "CeNCOOS / UC Davis Tomales Bay Buoy\nsouth of Hog Island · hourly→daily median",
         fontsize=FONT, fontweight="bold",
@@ -198,7 +201,7 @@ def plot_habmap() -> None:
         ("Dinophysis_spp",         "Dinophysis spp.",         "#6A1B9A", 10),
     ]
 
-    fig, axes = plt.subplots(len(panels), 1, figsize=(W, 10.5), sharex=True)
+    fig, axes = plt.subplots(len(panels), 1, figsize=(W_HABMAP, 10.5), sharex=True)
     fig.suptitle(
         "CalHABMAP Tomales Bay Mid-Channel Buoy\nweekly samples",
         fontsize=FONT, fontweight="bold",
